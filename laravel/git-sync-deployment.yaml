@@ -20,11 +20,11 @@ spec:
             - --repo=https://github.com/laravel/laravel.git
             - --depth=1
             - --period=60s
-            - --branch=11.x
-            - --root=/var/www
+            - --ref=11.x
+            - --root=/var/www/laravel
           volumeMounts:
             - name: app-code
-              mountPath: /var/www
+              mountPath: /var/www/laravel
       volumes:
         - name: app-code
           persistentVolumeClaim:
