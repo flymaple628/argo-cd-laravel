@@ -23,6 +23,13 @@ spec:
               mountPath: /var/www/
             - name: shared-cache
               mountPath: /var/www/storage
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - "composer install && npm install"
         - name: nginx
           image: nginx:latest
           ports:
