@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: git-sync
+  namespace: laravel
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: git-sync
+  template:
+    metadata:
+      labels:
+        app: git-sync
+    spec:
+      containers:
+        - name: git-sync
+          image: k8s.gcr.io/git-sync/git-sync:v4.0.0
+          env:
+            - name: GIT_SYNC_REPO
+              value: 'https://github.com/laravel/laravel.git'
+            - name: GIT_SYNC_BRANCH
+              value: 'main'
+            - name: GIT_SYNC_DEST
+              value: '/repo'
+            - name: GIT_SYNC_WAIT
+              value: '30' # 每30秒檢查一次更新
+          volumeMounts:
+            - name: app-code
+              mountPath: /repo
+      volumes:
+        - name: app-code
+          persistentVolumeClaim:
+            claimName: laravel-code-pvc
