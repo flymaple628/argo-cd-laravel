@@ -21,10 +21,10 @@ spec:
             - --depth=1
             - --period=60s
             - --ref=11.x
-            - --root=/var/www/laravel
+            - --root=/var/www/
           volumeMounts:
             - name: app-code
-              mountPath: /var/www/laravel
+              mountPath: /var/www/
       volumes:
         - name: app-code
           persistentVolumeClaim:

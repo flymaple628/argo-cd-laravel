@@ -20,16 +20,16 @@ spec:
             - containerPort: 9000
           volumeMounts:
             - name: app-code
-              mountPath: /var/www/laravel
+              mountPath: /var/www/
             - name: shared-cache
-              mountPath: /var/www/laravel/storage
+              mountPath: /var/www/storage
         - name: nginx
           image: nginx:latest
           ports:
             - containerPort: 80
           volumeMounts:
             - name: app-code
-              mountPath: /var/www/laravel
+              mountPath: /var/www/
       volumes:
         - name: app-code
           persistentVolumeClaim:
