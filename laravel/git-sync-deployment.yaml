@@ -1,35 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: laravel-git-sync
-  labels:
-    app: laravel-git-sync
+  name: git-sync
+  namespace: laravel
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: laravel-git-sync
+      app: git-sync
   template:
     metadata:
       labels:
-        app: laravel-git-sync
+        app: git-sync
     spec:
-      securityContext:
-        fsGroup: 101 # 設定 GID 確保共享卷權限
-      volumes:
-        - name: code-from-git
-          persistentVolumeClaim:
-            claimName: laravel-code-pvc
       containers:
         - name: git-sync
-          image: registry.k8s.io/git-sync/git-sync:v4.0.0
+          image: k8s.gcr.io/git-sync/git-sync:v4.0.0
           args:
             - --repo=https://github.com/laravel/laravel.git
             - --branch=main # 設定分支
             - --depth=1
             - --period=60s # 每分鐘同步一次
             - --link=current
-            - --root=/git
+            - --root=/var/www
           volumeMounts:
-            - name: code-from-git
-              mountPath: /git
+            - name: app-code
+              mountPath: /var/www
+      volumes:
+        - name: app-code
+          persistentVolumeClaim:
+            claimName: laravel-code-pvc
