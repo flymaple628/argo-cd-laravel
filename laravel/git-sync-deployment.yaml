@@ -27,7 +27,7 @@ spec:
               value: "30"
           volumeMounts:
             - name: app-code
-              mountPath: /repo
+              mountPath: /var/www
       volumes:
         - name: app-code
           persistentVolumeClaim:
