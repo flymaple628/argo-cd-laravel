@@ -20,7 +20,7 @@ spec:
             - --repo=https://github.com/laravel/laravel.git
             - --depth=1
             - --period=60s
-            - --repo=11.x
+            - --branch=11.x
             - --root=/var/www
           volumeMounts:
             - name: app-code
