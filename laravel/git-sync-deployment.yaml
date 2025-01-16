@@ -20,7 +20,7 @@ spec:
             - name: GIT_SYNC_REPO
               value: 'https://github.com/laravel/laravel.git'
             - name: GIT_SYNC_BRANCH
-              value: 'main'
+              value: '11.x'
             - name: GIT_SYNC_DEST
               value: '/repo'
             - name: GIT_SYNC_WAIT
