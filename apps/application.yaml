@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: 'https://github.com/your-repo/git-sync-laravel.git'
     targetRevision: main
-    path: git-sync
+    path: laravel
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: laravel
