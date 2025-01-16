@@ -16,15 +16,12 @@ spec:
       containers:
         - name: git-sync
           image: k8s.gcr.io/git-sync/git-sync:v4.0.0
-          env:
-            - name: GITSYNC_REPO
-              value: "https://github.com/laravel/laravel.git"
-            - name: GITSYNC_BRANCH
-              value: "11.x"
-            - name: GIT_SYNC_DEST
-              value: "/var/www"
-            - name: GITSYNC_WAIT
-              value: "30"
+          args:
+            - --repo=https://github.com/laravel/laravel.git
+            - --depth=1
+            - --period=60s
+            - --repo=11.x
+            - --root=/var/www
           volumeMounts:
             - name: app-code
               mountPath: /var/www
