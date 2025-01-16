@@ -22,7 +22,6 @@ spec:
             - --period=60s
             - --ref=11.x
             - --root=/var/www/
-            - --exechook-command=kubectl rollout restart deployment/laravel-app
           volumeMounts:
             - name: app-code
               mountPath: /var/www/
