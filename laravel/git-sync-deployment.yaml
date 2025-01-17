@@ -28,8 +28,6 @@ spec:
           volumeMounts:
             - name: app-code
               mountPath: /var/www/
-            - name: scripts
-              mountPath: /scripts
       volumes:
         - name: app-code
           persistentVolumeClaim:
