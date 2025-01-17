@@ -25,28 +25,12 @@ spec:
             - --period=60s
             - --ref=11.x
             - --root=/var/www/
-            - --exechook-command=/scripts/restart-pod.sh
           volumeMounts:
             - name: app-code
               mountPath: /var/www/
             - name: scripts
               mountPath: /scripts
-        # Sidecar 容器 (執行 kubectl 重啟)
-        - name: kubectl-sidecar
-          image: bitnami/kubectl:latest
-          command:
-            - /bin/bash
-            - -c
-            - |
-              echo "Sidecar ready for restarting pods."
-              while true; do sleep 3600; done
-          volumeMounts:
-            - name: scripts
-              mountPath: /scripts 
       volumes:
         - name: app-code
           persistentVolumeClaim:
             claimName: laravel-code-pvc
-        - name: scripts
-          configMap:
-            name: git-sync-scripts
