@@ -36,7 +36,7 @@ spec:
             - --period=60s
             - --ref=11.x
             - --root=/var/www/
-            - "--exechook-command=/scripts/restart-pod.sh"
+            - --exechook-command=/scripts/restart-pod.sh
           volumeMounts:
             - name: app-code
               mountPath: /var/www/
