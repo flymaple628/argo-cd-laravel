@@ -30,8 +30,7 @@ spec:
               exec:
                 command:
                   - /bin/sh
-                  - -c
-                  - "composer install && npm install"
+                  - ls
         - name: nginx
           image: nginx:latest
           ports:
