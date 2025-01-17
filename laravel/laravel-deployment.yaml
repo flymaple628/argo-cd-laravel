@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: laravel-app
   namespace: laravel
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   replicas: 1
   selector:
@@ -23,6 +25,13 @@ spec:
               mountPath: /var/www/
             - name: shared-cache
               mountPath: /var/www/storage
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - "composer install && npm install"
         - name: nginx
           image: nginx:latest
           ports:
