@@ -7,6 +7,8 @@ data:
   restart-pod.sh: |
     #!/bin/bash
     set -e
+    echo "Ensuring script is executable..."
+    chmod +x /scripts/restart-pod.sh
     echo "Git Sync completed. Restarting pods..."
     kubectl rollout restart deployment/laravel-app -n laravel
     echo "Pods restarted successfully."
