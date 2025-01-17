@@ -32,7 +32,7 @@ spec:
                 command:
                   - /bin/sh
                   - -c
-                  - "composer install && npm install"  # 安裝 Composer 依賴和 NPM 包
+                  - "composer install && npm install && php artisan migrate --force"  # 安裝 Composer 依賴和 NPM 包
 
         - name: nginx
           image: nginx:latest
