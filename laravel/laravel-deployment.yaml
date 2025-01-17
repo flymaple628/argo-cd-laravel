@@ -18,20 +18,21 @@ spec:
       containers:
         - name: php-fpm
           image: jkaninda/laravel-php-fpm:latest
+          workingDir: /var/www/laravel
           ports:
             - containerPort: 9000
           volumeMounts:
             - name: app-code
               mountPath: /var/www
             - name: shared-cache
-              mountPath: /var/www/storage
+              mountPath: /var/www/laravel/storage
         - name: nginx
           image: nginx:latest
           ports:
             - containerPort: 80
           volumeMounts:
             - name: app-code
-              mountPath: /var/www
+              mountPath: /var/www/laravel/public
       volumes:
         - name: app-code
           persistentVolumeClaim:
