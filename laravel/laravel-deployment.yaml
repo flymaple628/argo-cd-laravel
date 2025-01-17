@@ -25,12 +25,6 @@ spec:
               mountPath: /var/www/laravel/
             - name: shared-cache
               mountPath: /var/www/laravel/storage
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - /bin/sh
-                  - ls
         - name: nginx
           image: nginx:latest
           ports:
