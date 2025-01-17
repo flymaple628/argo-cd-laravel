@@ -35,7 +35,8 @@ spec:
             - /bin/sh
             - -c
             - |
-              curl -sS https://getcomposer.org/installer | php \
+              apt-get update && apt-get install -y --no-install-recommends git \
+              && curl -sS https://getcomposer.org/installer | php \
               && mv composer.phar /usr/local/bin/composer \
               && set -e
               SYNC_DIR="/var/www/laravel"
