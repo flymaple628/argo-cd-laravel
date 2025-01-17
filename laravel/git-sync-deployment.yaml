@@ -15,17 +15,6 @@ spec:
       labels:
         app: git-sync
     spec:
-      initContainers:
-        - name: init-permissions
-          image: bitnami/kubectl:latest
-          command:
-            - /bin/sh
-            - -c
-            - |
-              chmod +x /scripts/restart-pod.sh
-          volumeMounts:
-            - name: scripts
-              mountPath: /scripts
       containers:
         # Git Sync 容器
         - name: git-sync
