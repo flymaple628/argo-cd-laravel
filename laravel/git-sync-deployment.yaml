@@ -25,7 +25,7 @@ spec:
             - --period=60s
             - --ref=11.x
             - --root=/var/www/
-            - "--exechook-command=/bin/sh -c 'mkdir -p /var/www/status && touch /var/www/status/fpm /var/www/status/npm && echo \"Status files updated\"'"
+            - --exechook-command=/bin/sh -c 'mkdir -p /var/www/status && touch /var/www/status/fpm /var/www/status/npm && echo \"Status files updated\"'
           volumeMounts:
             - name: app-code
               mountPath: /var/www/
