@@ -22,18 +22,13 @@ spec:
             - sh
             - -c
             - |
-                if [ -z "${GITSYNC_HASH}" ]; then
-                    echo "GITSYNC_HASH is not set" > exechook
-                    exit 1
-                fi
-                cat file > exechook
-                echo "ENVKEY=$ENVKEY" > exechook-env
-                date >> /var/log/runs
+              cp /scripts/exechook.sh /var/www/exechook.sh && chmod +x /var/www/exechook.sh
           volumeMounts:
-            - name: exechook-script-volume
+            - name: app-code
+              mountPath: /var/www/
+            - name: exechook-script-volume # 修改此名稱與 volumes 一致
               mountPath: /scripts
-            - name: workdir-volume
-              mountPath: /workdir
+              readOnly: true
       containers:
         # Git Sync 容器
         - name: git-sync
@@ -44,18 +39,14 @@ spec:
             - --period=60s
             - --ref=11.x
             - --root=/var/www/
-            - --exechook-command=/bin/sh /workdir/exechook.sh
+            - --exechook-command=exechook.sh
           volumeMounts:
             - name: app-code
               mountPath: /var/www/
-            - name: workdir-volume
-              mountPath: /workdir
       volumes:
         - name: app-code
           persistentVolumeClaim:
             claimName: laravel-code-pvc
-        - name: exechook-script-volume
+        - name: exechook-script-volume # 修改此名稱與 volumeMounts 一致
           configMap:
             name: git-sync-exechook-configmap
-        - name: workdir-volume
-          emptyDir: {}
