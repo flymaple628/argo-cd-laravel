@@ -25,7 +25,7 @@ spec:
             - --period=60s
             - --ref=11.x
             - --root=/var/www/
-            - --exechook-command=ls -al > ls-file
+            - --exechook-command=/bin/sh -c "ls -al > ls-file"
           volumeMounts:
             - name: app-code
               mountPath: /var/www/
