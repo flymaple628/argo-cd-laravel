@@ -29,10 +29,13 @@ spec:
           volumeMounts:
             - name: app-code
               mountPath: /var/www/
-            - name: exechook-script-volume
-              configMap:
-                name: git-sync-exechook-configmap
+            - name: git-sync-exechook-configmap
+              mountPath: /scripts
+              readOnly: true
       volumes:
         - name: app-code
           persistentVolumeClaim:
             claimName: laravel-code-pvc
+        - name: exechook-script-volume
+          configMap:
+            name: git-sync-exechook-configmap
