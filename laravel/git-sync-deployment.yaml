@@ -15,6 +15,24 @@ spec:
       labels:
         app: git-sync
     spec:
+      initContainers:
+        - name: init-exechook
+          image: busybox
+          command:
+            - sh
+            - -c
+            - |
+              if [ -f /scripts/exechook.sh ]; then
+                cp /scripts/exechook.sh /workdir/exechook.sh
+                chmod +x /workdir/exechook.sh
+              else
+                echo "Script not found in /scripts" && exit 1
+              fi
+          volumeMounts:
+            - name: exechook-script-volume
+              mountPath: /scripts
+            - name: workdir-volume
+              mountPath: /workdir
       containers:
         # Git Sync 容器
         - name: git-sync
@@ -25,17 +43,18 @@ spec:
             - --period=60s
             - --ref=11.x
             - --root=/var/www/
-            - --exechook-command=/bin/sh /scripts/exechook.sh
+            - --exechook-command=/bin/sh /workdir/exechook.sh
           volumeMounts:
             - name: app-code
               mountPath: /var/www/
-            - name: exechook-script-volume # 修改此名稱與 volumes 一致
-              mountPath: /scripts
-              readOnly: true
+            - name: workdir-volume
+              mountPath: /workdir
       volumes:
         - name: app-code
           persistentVolumeClaim:
             claimName: laravel-code-pvc
-        - name: exechook-script-volume # 修改此名稱與 volumeMounts 一致
+        - name: exechook-script-volume
           configMap:
             name: git-sync-exechook-configmap
+        - name: workdir-volume
+          emptyDir: {}
