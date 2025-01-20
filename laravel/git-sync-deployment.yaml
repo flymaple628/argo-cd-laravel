@@ -25,10 +25,13 @@ spec:
             - --period=60s
             - --ref=11.x
             - --root=/var/www/
-            - --exechook-command=/bin/sh -c '/bin/mkdir -p /var/www/status && /bin/touch /var/www/status/fpm /var/www/status/npm && echo "Status files updated"'
+            - --exechook-command=/bin/sh /scripts/exechook.sh
           volumeMounts:
             - name: app-code
               mountPath: /var/www/
+            - name: exechook-script-volume
+              configMap:
+                name: git-sync-exechook-configmap
       volumes:
         - name: app-code
           persistentVolumeClaim:
