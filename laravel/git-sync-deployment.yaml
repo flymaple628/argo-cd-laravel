@@ -36,20 +36,20 @@ spec:
               mountPath: /var/www/
 
       containers:
-      #   - name: npm-cap
-      #     image: flymaple628/npm-cap-8.6.0:1.0
-      #     workingDir: /var/www/laravel
-      #     command:
-      #       - sh
-      #       - -c
-      #       - |
-      #         npm install
-      #         gulp
-      #         npm run cb-build
-      #     tty: true
-      #     volumeMounts:
-      #       - name: app-code
-      #         mountPath: /var/www
+        - name: npm-cap
+          image: flymaple628/npm-cap-8.6.0:1.0
+          workingDir: /var/www/laravel
+          command:
+            - sh
+            - -c
+            - |
+              npm install
+              gulp
+              npm run cb-build
+          tty: true
+          volumeMounts:
+            - name: app-code
+              mountPath: /var/www/larave
         - name: fpm
           image: flymaple628/php-fpm-7.0:1.0
           env:
