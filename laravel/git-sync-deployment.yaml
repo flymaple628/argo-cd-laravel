@@ -52,11 +52,14 @@ spec:
       #         mountPath: /var/www
         - name: fpm
           image: flymaple628/php-fpm-7.0:1.0
+          env:
+            - name: COMPOSER_ALLOW_SUPERUSER
+              value: "1"
           workingDir: /var/www/laravel
           command: ["/bin/sh", "-c"]
           args:
             - |
-               php-fpm
+              composer install && php-fpm
           volumeMounts:
             - name: app-code
               mountPath: /var/www
