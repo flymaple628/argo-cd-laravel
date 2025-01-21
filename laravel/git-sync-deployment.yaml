@@ -15,7 +15,7 @@ spec:
       labels:
         app: git-sync
     spec:
-      initContainers:
+      containers:
         # 檢查並初始化 Git 資料夾
         - name: git-init
           image: alpine/git
