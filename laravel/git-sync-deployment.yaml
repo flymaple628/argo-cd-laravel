@@ -16,37 +16,44 @@ spec:
         app: git-sync
     spec:
       initContainers:
-        - name: init-exechook
-          image: busybox
+        # 檢查並初始化 Git 資料夾
+        - name: git-init
+          image: alpine/git
+          command:
+            - /bin/sh
+            - -c
+            - |
+              if [ ! -d "/var/www/laravel/.git" ]; then
+                git clone https://github.com/laravel/laravel /var/www/laravel && \
+                cd /var/www/laravel/ && git checkout 5.x;
+              else
+                cd /var/www && git pull;
+              fi
+          volumeMounts:
+            - name: app-code
+              mountPath: /var/www/
+
+      containers:
+        - name: npm-cap
+          image: flymaple628/npm-cap-8.6.0:1.0
           command:
             - sh
             - -c
             - |
-              cp /scripts/exechook.sh /var/www/exechook.sh && chmod +x /var/www/exechook.sh
+              npm install
+              gulp
+              npm run cb-build
+          tty: true
           volumeMounts:
             - name: app-code
-              mountPath: /var/www/
-            - name: exechook-script-volume # 修改此名稱與 volumes 一致
-              mountPath: /scripts
-              readOnly: true
-      containers:
-        # Git Sync 容器
-        - name: git-sync
-          image: k8s.gcr.io/git-sync/git-sync:v4.0.0
-          args:
-            - --repo=https://github.com/laravel/laravel
-            - --depth=1
-            - --period=60s
-            - --ref=11.x
-            - --root=/var/www/
-            - --exechook-command=exechook.sh
+              mountPath: /var/www/laravel
+        - name: fpm
+          image: flymaple628/php-fpm-7.0:1.0
+          command: ["composer", "install"]
           volumeMounts:
             - name: app-code
-              mountPath: /var/www/
+              mountPath: /var/www/laravel
       volumes:
         - name: app-code
           persistentVolumeClaim:
             claimName: laravel-code-pvc
-        - name: exechook-script-volume # 修改此名稱與 volumeMounts 一致
-          configMap:
-            name: git-sync-exechook-configmap

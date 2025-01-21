@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: php-fpm
-          image: jkaninda/laravel-php-fpm:latest
+          image:  flymaple628/php-fpm-7.0:1.0
           workingDir: /var/www/laravel
           ports:
             - containerPort: 9000
