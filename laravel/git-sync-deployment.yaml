@@ -15,7 +15,7 @@ spec:
       labels:
         app: git-sync
     spec:
-      containers:
+      initContainers:
         # 檢查並初始化 Git 資料夾
         - name: git-init
           image: alpine/git
@@ -35,7 +35,7 @@ spec:
             - name: app-code
               mountPath: /var/www/
 
-      # containers:
+      containers:
       #   - name: npm-cap
       #     image: flymaple628/npm-cap-8.6.0:1.0
       #     workingDir: /var/www/laravel
@@ -50,13 +50,16 @@ spec:
       #     volumeMounts:
       #       - name: app-code
       #         mountPath: /var/www/laravel
-      #   - name: fpm
-      #     image: flymaple628/php-fpm-7.0:1.0
-      #     workingDir: /var/www/laravel
-      #     command: ["composer", "install"]
-      #     volumeMounts:
-      #       - name: app-code
-      #         mountPath: /var/www/laravel
+        - name: fpm
+          image: flymaple628/php-fpm-7.0:1.0
+          workingDir: /var/www/laravel
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              composer install && php-fpm
+          volumeMounts:
+            - name: app-code
+              mountPath: /var/www/laravel
       volumes:
         - name: app-code
           persistentVolumeClaim:
