@@ -42,9 +42,9 @@ spec:
           command: ["/bin/sh", "-c"]
           args:
             - |
-              npm install
-              gulp
-              npm run cb-build
+              npm install --force --yes && \
+              echo "NPM install complete. Keeping container alive..." && \
+              tail -f /dev/null
           tty: true
           volumeMounts:
             - name: app-code
