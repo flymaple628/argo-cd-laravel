@@ -23,11 +23,11 @@ spec:
             - /bin/sh
             - -c
             - |
-              if [ ! -d "/var/www/laravel/.git" ]; then
+              if [ ! -d "/var/www/laravel/" ]; then
                 git clone https://github.com/laravel/laravel /var/www/laravel && \
-                cd /var/www/laravel/ && git checkout 5.x;
+                cd /var/www/laravel/ && git checkout 5.1;
               else
-                cd /var/www && git pull;
+                cd /var/www/laravel/ && git pull;
               fi
           volumeMounts:
             - name: app-code
