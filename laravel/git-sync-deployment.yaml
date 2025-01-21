@@ -38,6 +38,7 @@ spec:
       containers:
         - name: npm-cap
           image: flymaple628/npm-cap-8.6.0:1.0
+          workingDir: /var/www/laravel
           command:
             - sh
             - -c
@@ -51,6 +52,7 @@ spec:
               mountPath: /var/www/laravel
         - name: fpm
           image: flymaple628/php-fpm-7.0:1.0
+          workingDir: /var/www/laravel
           command: ["composer", "install"]
           volumeMounts:
             - name: app-code
