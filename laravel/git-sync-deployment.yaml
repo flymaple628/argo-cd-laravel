@@ -39,9 +39,8 @@ spec:
         - name: npm-cap
           image: flymaple628/npm-cap-8.6.0:1.0
           workingDir: /var/www/laravel
-          command:
-            - sh
-            - -c
+          command: ["/bin/sh", "-c"]
+          args:
             - |
               npm install
               gulp
@@ -49,7 +48,7 @@ spec:
           tty: true
           volumeMounts:
             - name: app-code
-              mountPath: /var/www/larave
+              mountPath: /var/www
         - name: fpm
           image: flymaple628/php-fpm-7.0:1.0
           env:
