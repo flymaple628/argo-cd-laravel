@@ -23,11 +23,13 @@ spec:
             - /bin/sh
             - -c
             - |
-              if [ ! -d "/var/www/laravel/" ]; then
+              if [ ! -d "/var/www/laravel/.git" ]; then
+                echo "Cloning repository..."
                 git clone https://github.com/laravel/laravel /var/www/laravel && \
-                cd /var/www/laravel/ && git checkout 5.1;
+                cd /var/www/laravel && git checkout 5.1;
               else
-                cd /var/www/laravel/ && git pull;
+                echo "Updating repository..."
+                cd /var/www/laravel && git fetch origin && git reset --hard origin/5.1;
               fi
           volumeMounts:
             - name: app-code
